@@ -9,3 +9,8 @@ export const site = {
   phone: '+7 906 129-49-99',
   whatsapp: 'https://api.whatsapp.com/send?phone=79061294999',
 };
+
+// Ключ сервиса Web3Forms для формы заявки на аудит.
+// Получить бесплатно: https://web3forms.com → ввести свою почту → ключ придёт на неё.
+// Пока ключ пустой, форма открывает почтовую программу с готовым письмом.
+export const formAccessKey = '';

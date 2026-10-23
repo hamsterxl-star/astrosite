@@ -1,0 +1,103 @@
+---
+// Форма «Заказать аудит сайта».
+// Если в src/data/site.ts указан formAccessKey, заявка уходит через Web3Forms
+// и приходит вам на почту. Если ключа нет, открывается письмо на site.email.
+import { site, formAccessKey } from '../data/site';
+
+const messengers = ['Telegram', 'WhatsApp', 'MAX'];
+---
+<form class="card audit-form" id="audit-form" data-key={formAccessKey} data-email={site.email}>
+  <h2>Заказать аудит сайта</h2>
+
+  <label>
+    <span>Адрес сайта</span>
+    <input type="text" name="site" placeholder="example.ru" required />
+  </label>
+
+  <label>
+    <span>Телефон</span>
+    <input type="tel" name="phone" placeholder="+7 900 000-00-00" required />
+  </label>
+
+  <fieldset>
+    <legend>Как с вами связаться?</legend>
+    <div class="options">
+      {messengers.map((m, i) => (
+        <label class="option">
+          <input type="radio" name="messenger" value={m} checked={i === 0} />
+          <span>{m}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <button class="btn" type="submit">Отправить на аудит</button>
+  <p class="status" role="status"></p>
+</form>
+
+<script>
+  // Этот код работает в браузере посетителя и отправляет заявку.
+  const form = document.getElementById('audit-form') as HTMLFormElement;
+  const status = form.querySelector('.status') as HTMLElement;
+  const button = form.querySelector('button') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const text =
+      `Сайт: ${data.get('site')}\n` +
+      `Телефон: ${data.get('phone')}\n` +
+      `Связаться через: ${data.get('messenger')}`;
+
+    // Ключа нет: открываем почтовую программу с готовым письмом.
+    if (!form.dataset.key) {
+      const subject = encodeURIComponent('Заявка на аудит сайта');
+      window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${encodeURIComponent(text)}`;
+      return;
+    }
+
+    button.disabled = true;
+    status.textContent = 'Отправляю…';
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: form.dataset.key,
+          subject: 'Заявка на аудит сайта',
+          from_name: 'Сайт: форма аудита',
+          message: text,
+        }),
+      });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message);
+      form.reset();
+      status.textContent = 'Спасибо! Заявка отправлена, скоро свяжусь с вами.';
+    } catch {
+      status.textContent = `Не получилось отправить. Напишите, пожалуйста, на ${form.dataset.email}`;
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .audit-form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; margin-top: 48px; }
+  h2 { margin: 0 0 8px; }
+  label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+  input[type='text'], input[type='tel'] {
+    font: inherit; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--text);
+  }
+  input[type='text']:focus, input[type='tel']:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-weight: 600; margin-bottom: 8px; }
+  .options { display: flex; gap: 10px; flex-wrap: wrap; }
+  .option { flex-direction: row; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; background: var(--bg); }
+  .option:has(input:checked) { border-color: var(--accent); color: var(--accent); }
+  .option input { accent-color: var(--accent); margin: 0; }
+  button { border: 0; font: inherit; font-weight: 700; cursor: pointer; align-self: flex-start; }
+  button:disabled { opacity: 0.6; cursor: wait; }
+  .status { margin: 0; color: var(--muted); }
+</style>

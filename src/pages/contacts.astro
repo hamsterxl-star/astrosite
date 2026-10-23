@@ -1,6 +1,7 @@
 ---
 // Контакты (адрес «/contacts»). Сами контакты лежат в src/data/site.ts.
 import Layout from '../layouts/Layout.astro';
+import AuditForm from '../components/AuditForm.astro';
 import { site } from '../data/site';
 ---
 <Layout title="Контакты" description="Свяжитесь со мной, чтобы обсудить продвижение вашего сайта.">
@@ -17,6 +18,8 @@ import { site } from '../data/site';
       <span>✉️</span><strong>Почта</strong><small>{site.email}</small>
     </a>
   </div>
+
+  <AuditForm />
 </Layout>
 
 <style>
