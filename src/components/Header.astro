@@ -1,0 +1,32 @@
+---
+import { site } from '../data/site';
+
+// Пункты меню. Astro.url.pathname — адрес текущей страницы,
+// по нему подсвечиваем активный пункт.
+const links = [
+  { href: '/', label: 'Главная' },
+  { href: '/services', label: 'Услуги' },
+  { href: '/portfolio', label: 'Портфолио' },
+  { href: '/contacts', label: 'Контакты' },
+];
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="header">
+  <div class="container header-inner">
+    <a href="/" class="logo">{site.name}</a>
+    <nav>
+      {links.map((link) => (
+        <a href={link.href} class:list={{ active: current === link.href }}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
+  .logo { font-weight: 800; color: var(--text); text-decoration: none; }
+  nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+  nav a:hover, nav a.active { color: var(--accent); }
+</style>

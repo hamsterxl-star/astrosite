@@ -1,0 +1,69 @@
+---
+// Главная страница (адрес «/»).
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CaseCard from '../components/CaseCard.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+import { cases } from '../data/portfolio';
+
+// На главной показываем только первые 3 услуги и 2 проекта.
+const topServices = services.slice(0, 3);
+const topCases = cases.slice(0, 2);
+
+const steps = [
+  { n: '1', title: 'Знакомство', text: 'Обсуждаем ваш бизнес, цели и бюджет.' },
+  { n: '2', title: 'Аудит', text: 'Изучаю сайт и конкурентов, нахожу точки роста.' },
+  { n: '3', title: 'Работа', text: 'Внедряю изменения по понятному плану.' },
+  { n: '4', title: 'Отчёт', text: 'Каждый месяц показываю результаты в цифрах.' },
+];
+---
+<Layout title="Главная">
+  <section class="hero">
+    <h1>{site.tagline}</h1>
+    <p class="lead">SEO, реклама и аналитика для малого и среднего бизнеса. Без воды и непонятных отчётов, только рост заявок.</p>
+    <div class="buttons">
+      <a class="btn" href="/contacts">Обсудить проект</a>
+      <a class="btn btn-outline" href="/portfolio">Смотреть кейсы</a>
+    </div>
+  </section>
+
+  <h2>Услуги</h2>
+  <div class="grid">
+    {topServices.map((s) => <ServiceCard {...s} />)}
+  </div>
+  <p><a href="/services">Все услуги и цены →</a></p>
+
+  <h2>Как я работаю</h2>
+  <div class="grid steps">
+    {steps.map((s) => (
+      <div class="card">
+        <div class="num">{s.n}</div>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2>Последние проекты</h2>
+  <div class="grid">
+    {topCases.map((c) => <CaseCard {...c} />)}
+  </div>
+  <p><a href="/portfolio">Всё портфолио →</a></p>
+
+  <section class="cta card">
+    <h2>Хотите больше клиентов из поиска?</h2>
+    <p class="lead">Напишите, и я бесплатно посмотрю ваш сайт и подскажу, с чего начать.</p>
+    <a class="btn" href="/contacts">Написать мне</a>
+  </section>
+</Layout>
+
+<style>
+  .hero { padding-block: 32px 16px; }
+  .num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 800; }
+  .steps h3 { margin: 12px 0 4px; }
+  .steps p { color: var(--muted); margin: 0; }
+  .cta { margin-top: 64px; text-align: center; padding: 40px 24px; }
+  .cta h2 { margin-top: 0; }
+  .cta .lead { margin: 0 auto 24px; }
+</style>

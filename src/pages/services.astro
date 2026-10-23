@@ -1,0 +1,20 @@
+---
+// Страница услуг (адрес «/services»). Сами услуги лежат в src/data/services.ts.
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { services } from '../data/services';
+---
+<Layout title="Услуги" description="Услуги по продвижению сайтов: SEO, реклама, контент и аналитика.">
+  <h1>Услуги и цены</h1>
+  <p class="lead">Точная стоимость зависит от сайта и задач. Назову её после бесплатного знакомства.</p>
+  <div class="grid list">
+    {services.map((s) => <ServiceCard {...s} />)}
+  </div>
+  <div class="buttons">
+    <a class="btn" href="/contacts">Получить расчёт</a>
+  </div>
+</Layout>
+
+<style>
+  .list { margin-top: 32px; }
+</style>
