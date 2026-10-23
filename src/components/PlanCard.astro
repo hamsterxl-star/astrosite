@@ -1,0 +1,26 @@
+---
+// Карточка одного тарифа. Данные приходят через props.
+const { title, price, description, features = [], top = false } = Astro.props;
+---
+<article class:list={['card', 'plan', { top }]}>
+  {top && <span class="badge">ТОП</span>}
+  <h3>{title}</h3>
+  <p class="price">{price}</p>
+  <p class="desc">{description}</p>
+  <ul>
+    {features.map((f) => <li>{f}</li>)}
+  </ul>
+  <a class:list={['btn', { 'btn-outline': !top }]} href="/contacts">Заказать</a>
+</article>
+
+<style>
+  .plan { position: relative; display: flex; flex-direction: column; }
+  .plan.top { border: 2px solid var(--accent); }
+  .badge { position: absolute; top: -12px; right: 20px; background: var(--accent); color: var(--bg); font-size: 12px; font-weight: 800; padding: 2px 12px; border-radius: 999px; }
+  h3 { margin: 0; font-size: 22px; }
+  .price { font-size: 28px; font-weight: 800; color: var(--accent); margin: 8px 0; }
+  .desc { color: var(--muted); margin: 0 0 16px; }
+  ul { padding-left: 20px; margin: 0 0 24px; flex: 1; }
+  li { margin-bottom: 6px; }
+  .btn { text-align: center; }
+</style>

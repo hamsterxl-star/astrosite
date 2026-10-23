@@ -1,17 +1,20 @@
 ---
-// Страница услуг (адрес «/services»). Сами услуги лежат в src/data/services.ts.
+// Страница услуг (адрес «/services»). Тарифы и проверки лежат в src/data/services.ts.
 import Layout from '../layouts/Layout.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-import { services } from '../data/services';
+import PlanCard from '../components/PlanCard.astro';
+import AuditCard from '../components/AuditCard.astro';
+import { plans, audits } from '../data/services';
 ---
-<Layout title="Услуги" description="Услуги по продвижению сайтов: SEO, реклама, контент и аналитика.">
+<Layout title="Услуги и цены" description="Тарифы SEO-продвижения сайтов: Базовый, Оптимальный и Расширенный.">
   <h1>Услуги и цены</h1>
-  <p class="lead">Точная стоимость зависит от сайта и задач. Назову её после бесплатного знакомства.</p>
+  <p class="lead">SEO-продвижение по фиксированным тарифам. Выберите подходящий или напишите, и я помогу определиться.</p>
   <div class="grid list">
-    {services.map((s) => <ServiceCard {...s} />)}
+    {plans.map((p) => <PlanCard {...p} />)}
   </div>
-  <div class="buttons">
-    <a class="btn" href="/contacts">Получить расчёт</a>
+
+  <h2>Что ещё проверяю</h2>
+  <div class="grid">
+    {audits.map((a) => <AuditCard {...a} />)}
   </div>
 </Layout>
 

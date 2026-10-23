@@ -1,0 +1,15 @@
+---
+// Карточка дополнительной проверки (аудита).
+const { icon, title, description } = Astro.props;
+---
+<article class="card">
+  <div class="icon">{icon}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</article>
+
+<style>
+  .icon { font-size: 32px; }
+  h3 { margin: 12px 0 8px; }
+  p { color: var(--muted); margin: 0; }
+</style>

@@ -1,15 +1,11 @@
 ---
 // Главная страница (адрес «/»).
 import Layout from '../layouts/Layout.astro';
-import ServiceCard from '../components/ServiceCard.astro';
+import PlanCard from '../components/PlanCard.astro';
 import CaseCard from '../components/CaseCard.astro';
 import { site } from '../data/site';
-import { services } from '../data/services';
+import { plans } from '../data/services';
 import { cases } from '../data/portfolio';
-
-// На главной показываем только первые 3 услуги и 2 проекта.
-const topServices = services.slice(0, 3);
-const topCases = cases.slice(0, 2);
 
 const steps = [
   { n: '1', title: 'Знакомство', text: 'Обсуждаем ваш бизнес, цели и бюджет.' },
@@ -21,18 +17,18 @@ const steps = [
 <Layout title="Главная">
   <section class="hero">
     <h1>{site.tagline}</h1>
-    <p class="lead">SEO, реклама и аналитика для малого и среднего бизнеса. Без воды и непонятных отчётов, только рост заявок.</p>
+    <p class="lead">{site.lead}</p>
     <div class="buttons">
-      <a class="btn" href="/contacts">Обсудить проект</a>
+      <a class="btn" href="/contacts">Бесплатная консультация</a>
       <a class="btn btn-outline" href="/portfolio">Смотреть кейсы</a>
     </div>
   </section>
 
-  <h2>Услуги</h2>
-  <div class="grid">
-    {topServices.map((s) => <ServiceCard {...s} />)}
+  <h2>Тарифы</h2>
+  <div class="grid plans">
+    {plans.map((p) => <PlanCard {...p} />)}
   </div>
-  <p><a href="/services">Все услуги и цены →</a></p>
+  <p><a href="/services">Подробнее об услугах →</a></p>
 
   <h2>Как я работаю</h2>
   <div class="grid steps">
@@ -45,11 +41,10 @@ const steps = [
     ))}
   </div>
 
-  <h2>Последние проекты</h2>
+  <h2>Проекты</h2>
   <div class="grid">
-    {topCases.map((c) => <CaseCard {...c} />)}
+    {cases.map((c) => <CaseCard {...c} />)}
   </div>
-  <p><a href="/portfolio">Всё портфолио →</a></p>
 
   <section class="cta card">
     <h2>Хотите больше клиентов из поиска?</h2>
@@ -60,6 +55,7 @@ const steps = [
 
 <style>
   .hero { padding-block: 32px 16px; }
+  .plans { margin-top: 12px; }
   .steps { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   .num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 800; }
   .steps h3 { margin: 12px 0 4px; }
