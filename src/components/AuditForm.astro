@@ -2,25 +2,40 @@
 // Форма «Заказать аудит сайта».
 // Если в src/data/site.ts указан formAccessKey, заявка уходит через Web3Forms
 // и приходит вам на почту. Если ключа нет, открывается письмо на site.email.
-import { site, formAccessKey } from '../data/site';
+import { site, siteText, formAccessKey } from '../data/site';
+import { getLang, useTranslations } from '../i18n/ui';
 
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const messengers = ['Telegram', 'WhatsApp', 'MAX'];
+
+// Надписи, которые нужны коду в браузере (сообщения об отправке и текст письма).
+const messages = {
+  sending: t('form.sending'),
+  success: t('form.success'),
+  error: t('form.error'),
+  subject: t('form.subject'),
+  site: t('form.mailSite'),
+  phone: t('form.mailPhone'),
+  messenger: t('form.mailMessenger'),
+  fromName: siteText[lang].name,
+};
 ---
-<form class="card audit-form" id="audit-form" data-key={formAccessKey} data-email={site.email}>
-  <h2>Заказать аудит сайта</h2>
+<form class="card audit-form" id="audit-form" data-key={formAccessKey} data-email={site.email} data-messages={JSON.stringify(messages)}>
+  <h2>{t('form.title')}</h2>
 
   <label>
-    <span>Адрес сайта</span>
+    <span>{t('form.site')}</span>
     <input type="text" name="site" placeholder="example.ru" required />
   </label>
 
   <label>
-    <span>Телефон</span>
+    <span>{t('form.phone')}</span>
     <input type="tel" name="phone" placeholder="+7 900 000-00-00" required />
   </label>
 
   <fieldset>
-    <legend>Как с вами связаться?</legend>
+    <legend>{t('form.messenger')}</legend>
     <div class="options">
       {messengers.map((m, i) => (
         <label class="option">
@@ -31,7 +46,7 @@ const messengers = ['Telegram', 'WhatsApp', 'MAX'];
     </div>
   </fieldset>
 
-  <button class="btn" type="submit">Отправить на аудит</button>
+  <button class="btn" type="submit">{t('form.submit')}</button>
   <p class="status" role="status"></p>
 </form>
 
@@ -40,41 +55,43 @@ const messengers = ['Telegram', 'WhatsApp', 'MAX'];
   const form = document.getElementById('audit-form') as HTMLFormElement;
   const status = form.querySelector('.status') as HTMLElement;
   const button = form.querySelector('button') as HTMLButtonElement;
+  const m = JSON.parse(form.dataset.messages ?? '{}');
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const text =
-      `Сайт: ${data.get('site')}\n` +
-      `Телефон: ${data.get('phone')}\n` +
-      `Связаться через: ${data.get('messenger')}`;
+      `${m.site}: ${data.get('site')}\n` +
+      `${m.phone}: ${data.get('phone')}\n` +
+      `${m.messenger}: ${data.get('messenger')}\n` +
+      `(${document.documentElement.lang})`;
 
     // Ключа нет: открываем почтовую программу с готовым письмом.
     if (!form.dataset.key) {
-      const subject = encodeURIComponent('Заявка на аудит сайта');
+      const subject = encodeURIComponent(m.subject);
       window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${encodeURIComponent(text)}`;
       return;
     }
 
     button.disabled = true;
-    status.textContent = 'Отправляю…';
+    status.textContent = m.sending;
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: form.dataset.key,
-          subject: 'Заявка на аудит сайта',
-          from_name: 'Сайт: форма аудита',
+          subject: m.subject,
+          from_name: m.fromName,
           message: text,
         }),
       });
       const result = await response.json();
       if (!result.success) throw new Error(result.message);
       form.reset();
-      status.textContent = 'Спасибо! Заявка отправлена, скоро свяжусь с вами.';
+      status.textContent = m.success;
     } catch {
-      status.textContent = `Не получилось отправить. Напишите, пожалуйста, на ${form.dataset.email}`;
+      status.textContent = `${m.error} ${form.dataset.email}`;
     } finally {
       button.disabled = false;
     }

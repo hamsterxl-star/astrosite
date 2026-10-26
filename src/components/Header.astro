@@ -1,23 +1,33 @@
 ---
-import { site } from '../data/site';
+import { siteText } from '../data/site';
+import { languages, getLang, localizePath, stripLang, useTranslations, type Lang } from '../i18n/ui';
 
-// Пункты меню. Astro.url.pathname — адрес текущей страницы,
-// по нему подсвечиваем активный пункт.
+// Язык текущей страницы и адрес без языкового префикса ('/ru/services' → '/services').
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const current = stripLang(Astro.url.pathname);
+
+// Пункты меню. По адресу текущей страницы подсвечиваем активный пункт.
 const links = [
-  { href: '/', label: 'Главная' },
-  { href: '/services', label: 'Услуги' },
-  { href: '/portfolio', label: 'Портфолио' },
-  { href: '/contacts', label: 'Контакты' },
+  { path: '/', label: t('nav.home') },
+  { path: '/services', label: t('nav.services') },
+  { path: '/portfolio', label: t('nav.portfolio') },
+  { path: '/contacts', label: t('nav.contacts') },
 ];
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const langs = Object.keys(languages) as Lang[];
 ---
 <header class="header">
   <div class="container header-inner">
-    <a href="/" class="logo">{site.name}</a>
+    <a href={localizePath(lang, '/')} class="logo">{siteText[lang].name}</a>
     <nav>
       {links.map((link) => (
-        <a href={link.href} class:list={{ active: current === link.href }}>{link.label}</a>
+        <a href={localizePath(lang, link.path)} class:list={{ active: current === link.path }}>{link.label}</a>
       ))}
+      <span class="langs">
+        {langs.map((l) => (
+          <a href={localizePath(l, current)} hreflang={l} lang={l} class:list={{ active: l === lang }}>{languages[l]}</a>
+        ))}
+      </span>
     </nav>
   </div>
 </header>
@@ -26,7 +36,10 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
   .header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; }
   .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
   .logo { font-weight: 800; color: var(--text); text-decoration: none; }
-  nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
   nav a:hover, nav a.active { color: var(--accent); }
+  .langs { display: flex; gap: 2px; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
+  .langs a { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+  .langs a.active { background: var(--accent); color: var(--bg); }
 </style>

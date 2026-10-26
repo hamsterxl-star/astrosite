@@ -1,18 +1,26 @@
 ---
 // Общий «каркас» для всех страниц: шапка, содержимое и подвал.
 // Каждая страница передаёт сюда свой заголовок (title) и описание (description).
+// Язык страницы Astro определяет сам по адресу: / испанский, /ru/ русский, /en/ английский.
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import { siteText } from '../data/site';
+import { languages, getLang, localizePath, stripLang, type Lang } from '../i18n/ui';
 
-const { title, description = site.tagline } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const { title, description = siteText[lang].tagline } = Astro.props;
+
+// Ссылки на эту же страницу на других языках — подсказка для Google и Яндекса.
+const path = stripLang(Astro.url.pathname);
+const langs = Object.keys(languages) as Lang[];
 ---
-<html lang="ru">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <title>{title} | {site.name}</title>
+    <title>{title} | {siteText[lang].name}</title>
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={localizePath(l, path)} />)}
   </head>
   <body>
     <Header />

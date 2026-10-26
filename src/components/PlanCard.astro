@@ -1,16 +1,20 @@
 ---
 // Карточка одного тарифа. Данные приходят через props.
+import { getLang, localizePath, useTranslations } from '../i18n/ui';
+
 const { title, price, description, features = [], top = false } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 <article class:list={['card', 'plan', { top }]}>
-  {top && <span class="badge">ТОП</span>}
+  {top && <span class="badge">{t('plan.top')}</span>}
   <h3>{title}</h3>
   <p class="price">{price}</p>
   <p class="desc">{description}</p>
   <ul>
     {features.map((f) => <li>{f}</li>)}
   </ul>
-  <a class:list={['btn', { 'btn-outline': !top }]} href="/contacts">Заказать</a>
+  <a class:list={['btn', { 'btn-outline': !top }]} href={localizePath(lang, '/contacts')}>{t('plan.order')}</a>
 </article>
 
 <style>

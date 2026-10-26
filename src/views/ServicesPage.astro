@@ -1,0 +1,27 @@
+---
+// Страница услуг на любом языке. Тарифы и проверки лежат в src/data/services.ts.
+import Layout from '../layouts/Layout.astro';
+import PlanCard from '../components/PlanCard.astro';
+import AuditCard from '../components/AuditCard.astro';
+import { plans, audits } from '../data/services';
+import { getLang, useTranslations } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+<Layout title={t('services.title')} description={t('services.description')}>
+  <h1>{t('services.title')}</h1>
+  <p class="lead">{t('services.lead')}</p>
+  <div class="grid list">
+    {plans[lang].map((p) => <PlanCard {...p} />)}
+  </div>
+
+  <h2>{t('services.alsoCheck')}</h2>
+  <div class="grid">
+    {audits[lang].map((a) => <AuditCard {...a} />)}
+  </div>
+</Layout>
+
+<style>
+  .list { margin-top: 32px; }
+</style>

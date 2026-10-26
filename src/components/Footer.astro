@@ -1,10 +1,13 @@
 ---
-import { site } from '../data/site';
+import { site, siteText } from '../data/site';
+import { getLang } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
   <div class="container">
-    <p>© {year} {site.name}</p>
+    <p>© {year} {siteText[lang].name}</p>
     <p><a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.telegram}>Telegram</a> · <a href={site.whatsapp}>WhatsApp</a></p>
   </div>
 </footer>

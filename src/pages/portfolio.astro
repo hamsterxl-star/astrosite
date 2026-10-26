@@ -1,17 +1,5 @@
 ---
-// Портфолио (адрес «/portfolio»). Проекты лежат в src/data/portfolio.ts.
-import Layout from '../layouts/Layout.astro';
-import CaseCard from '../components/CaseCard.astro';
-import { cases } from '../data/portfolio';
+// Адрес «/portfolio» (испанский, язык по умолчанию). Сама страница лежит в src/views/PortfolioPage.astro.
+import PortfolioPage from '../views/PortfolioPage.astro';
 ---
-<Layout title="Портфолио" description="Кейсы по SEO-продвижению сайтов и результаты в цифрах.">
-  <h1>Портфолио</h1>
-  <p class="lead">Проекты, над которыми я работал, и результаты, которых удалось добиться.</p>
-  <div class="grid list">
-    {cases.map((c) => <CaseCard {...c} />)}
-  </div>
-</Layout>
-
-<style>
-  .list { margin-top: 32px; }
-</style>
+<PortfolioPage />

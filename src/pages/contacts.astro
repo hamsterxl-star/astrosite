@@ -1,31 +1,5 @@
 ---
-// Контакты (адрес «/contacts»). Сами контакты лежат в src/data/site.ts.
-import Layout from '../layouts/Layout.astro';
-import AuditForm from '../components/AuditForm.astro';
-import { site } from '../data/site';
+// Адрес «/contacts» (испанский, язык по умолчанию). Сама страница лежит в src/views/ContactsPage.astro.
+import ContactsPage from '../views/ContactsPage.astro';
 ---
-<Layout title="Контакты" description="Свяжитесь со мной, чтобы обсудить продвижение вашего сайта.">
-  <h1>Контакты</h1>
-  <p class="lead">Расскажите о своём сайте и задаче. Первая консультация бесплатная.</p>
-  <div class="grid list">
-    <a class="card contact" href={site.telegram}>
-      <span>✈️</span><strong>Telegram</strong><small>{site.telegramName}</small>
-    </a>
-    <a class="card contact" href={site.whatsapp}>
-      <span>💬</span><strong>WhatsApp</strong><small>{site.phone}</small>
-    </a>
-    <a class="card contact" href={`mailto:${site.email}`}>
-      <span>✉️</span><strong>Почта</strong><small>{site.email}</small>
-    </a>
-  </div>
-
-  <AuditForm />
-</Layout>
-
-<style>
-  .list { margin-top: 32px; }
-  .contact { display: flex; flex-direction: column; gap: 4px; text-decoration: none; color: var(--text); }
-  .contact span { font-size: 32px; }
-  .contact small { color: var(--muted); font-size: 15px; }
-  .contact:hover { border-color: var(--accent); }
-</style>
+<ContactsPage />

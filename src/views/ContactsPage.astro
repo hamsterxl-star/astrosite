@@ -1,0 +1,35 @@
+---
+// Контакты на любом языке. Сами контакты лежат в src/data/site.ts.
+import Layout from '../layouts/Layout.astro';
+import AuditForm from '../components/AuditForm.astro';
+import { site } from '../data/site';
+import { getLang, useTranslations } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+<Layout title={t('contacts.title')} description={t('contacts.description')}>
+  <h1>{t('contacts.title')}</h1>
+  <p class="lead">{t('contacts.lead')}</p>
+  <div class="grid list">
+    <a class="card contact" href={site.telegram}>
+      <span>✈️</span><strong>Telegram</strong><small>{site.telegramName}</small>
+    </a>
+    <a class="card contact" href={site.whatsapp}>
+      <span>💬</span><strong>WhatsApp</strong><small>{site.phone}</small>
+    </a>
+    <a class="card contact" href={`mailto:${site.email}`}>
+      <span>✉️</span><strong>{t('contacts.email')}</strong><small>{site.email}</small>
+    </a>
+  </div>
+
+  <AuditForm />
+</Layout>
+
+<style>
+  .list { margin-top: 32px; }
+  .contact { display: flex; flex-direction: column; gap: 4px; text-decoration: none; color: var(--text); }
+  .contact span { font-size: 32px; }
+  .contact small { color: var(--muted); font-size: 15px; }
+  .contact:hover { border-color: var(--accent); }
+</style>
