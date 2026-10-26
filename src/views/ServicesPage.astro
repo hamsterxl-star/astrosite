@@ -4,12 +4,13 @@ import Layout from '../layouts/Layout.astro';
 import PlanCard from '../components/PlanCard.astro';
 import AuditCard from '../components/AuditCard.astro';
 import { plans, audits } from '../data/services';
+import { seo } from '../data/seo';
 import { getLang, useTranslations } from '../i18n/ui';
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
-<Layout title={t('services.title')} description={t('services.description')}>
+<Layout title={seo.services[lang].title} description={seo.services[lang].description}>
   <h1>{t('services.title')}</h1>
   <p class="lead">{t('services.lead')}</p>
   <div class="grid list">

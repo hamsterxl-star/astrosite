@@ -3,12 +3,13 @@
 import Layout from '../layouts/Layout.astro';
 import AuditForm from '../components/AuditForm.astro';
 import { site } from '../data/site';
+import { seo } from '../data/seo';
 import { getLang, useTranslations } from '../i18n/ui';
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
-<Layout title={t('contacts.title')} description={t('contacts.description')}>
+<Layout title={seo.contacts[lang].title} description={seo.contacts[lang].description}>
   <h1>{t('contacts.title')}</h1>
   <p class="lead">{t('contacts.lead')}</p>
   <div class="grid list">
