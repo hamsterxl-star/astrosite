@@ -18,7 +18,13 @@ const langs = Object.keys(languages) as Lang[];
 ---
 <header class="header">
   <div class="container header-inner">
-    <a href={localizePath(lang, '/')} class="logo">{siteText[lang].name}</a>
+    <a href={localizePath(lang, '/')} class="logo">
+      <!-- Логотип: файлы лежат в public/. В тёмной теме показывается светлая версия. -->
+      <picture>
+        <source srcset="/logo-dark.png" media="(prefers-color-scheme: dark)" />
+        <img src="/logo.png" alt={siteText[lang].name} width="534" height="160" />
+      </picture>
+    </a>
     <nav>
       {links.map((link) => (
         <a href={localizePath(lang, link.path)} class:list={{ active: current === link.path }}>{link.label}</a>
@@ -35,7 +41,9 @@ const langs = Object.keys(languages) as Lang[];
 <style>
   .header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; }
   .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
-  .logo { font-weight: 800; color: var(--text); text-decoration: none; }
+  .logo { display: block; line-height: 0; }
+  .logo img { height: 56px; width: auto; }
+  @media (max-width: 600px) { .logo img { height: 40px; } }
   nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
   nav a:hover, nav a.active { color: var(--accent); }
