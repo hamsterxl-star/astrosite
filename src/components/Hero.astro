@@ -1,0 +1,134 @@
+---
+// Первый экран: сетка тонких линий, огромное слово SEO2GO, живой 3D-робот,
+// синий блок с кнопкой и подсказка «листайте вниз».
+// Робот рисуется в src/scripts/robot.ts.
+import '@fontsource/unbounded/800.css';
+import { siteText } from '../data/site';
+import { getLang, localizePath, useTranslations } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+<section class="hero">
+  <div class="lines" aria-hidden="true">
+    <span class="v v1"></span><span class="v v2"></span><span class="v v3"></span>
+    <span class="h h1"></span><span class="h h2"></span>
+  </div>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="giant" aria-hidden="true">SEO<span>2</span>GO</div>
+  <canvas class="robot" aria-hidden="true"></canvas>
+
+  <div class="container content">
+    <p class="kicker">{t('hero.kicker')}</p>
+    <h1>{siteText[lang].tagline}</h1>
+    <p class="lead">{siteText[lang].lead}</p>
+    <a class="cases" href={localizePath(lang, '/portfolio')}>{t('home.cases')} →</a>
+  </div>
+
+  <a class="cta" href={localizePath(lang, '/contacts')}>
+    <span class="circle">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 8v9H8" /></svg>
+    </span>
+    <span class="cta-text">{t('home.consult')}</span>
+  </a>
+
+  <div class="scroll" aria-hidden="true">
+    <span class="mouse"><span></span></span>
+    <small>{t('hero.scroll')}</small>
+  </div>
+</section>
+
+<script>
+  import { mountRobot } from '../scripts/robot';
+  const canvas = document.querySelector<HTMLCanvasElement>('.hero .robot');
+  if (canvas) {
+    try {
+      mountRobot(canvas);
+    } catch {
+      canvas.remove(); // если WebGL недоступен, просто без робота
+    }
+  }
+</script>
+
+<style>
+  .hero {
+    --blue: #1d7fe6;
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: clamp(620px, calc(100svh - 90px), 820px);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Сетка из тонких линий, как в журнальной вёрстке */
+  .lines span { position: absolute; background: var(--border); }
+  .lines .v { top: 0; bottom: 0; width: 1px; }
+  .lines .h { left: 0; right: 0; height: 1px; }
+  .v1 { left: 25%; } .v2 { left: 50%; } .v3 { left: 75%; }
+  .h1 { top: 33.333%; } .h2 { top: 66.666%; }
+
+  .glow {
+    position: absolute; right: 8%; top: 12%; width: 46vw; height: 46vw; max-width: 640px; max-height: 640px;
+    background: radial-gradient(circle, rgba(29, 127, 230, 0.18), transparent 65%);
+  }
+
+  /* Огромное слово за роботом */
+  .giant {
+    position: absolute; left: 0; right: 0; bottom: calc(33.333% - 0.12em);
+    font: 800 clamp(64px, 15.5vw, 250px) / 1 'Unbounded', system-ui, sans-serif;
+    letter-spacing: -0.03em; text-align: center; color: var(--text);
+    white-space: nowrap; user-select: none;
+  }
+  .giant span { color: var(--blue); }
+
+  .robot { position: absolute; right: 0; top: 0; width: 58%; height: 100%; }
+
+  .content { position: relative; padding-top: 48px; pointer-events: none; }
+  .content > * { pointer-events: auto; }
+  .kicker {
+    margin: 0 0 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+  }
+  h1 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.15; margin: 0 0 16px; max-width: 520px; }
+  .lead { font-size: 18px; max-width: 460px; margin: 0 0 16px; }
+  .cases { font-weight: 700; text-decoration: none; }
+
+  /* Синий блок с круглой кнопкой */
+  .cta {
+    position: absolute; left: 0; bottom: 0; width: 25%; min-width: 300px; height: 33.333%;
+    background: var(--blue); color: #fff; text-decoration: none;
+    display: flex; align-items: center; gap: 20px; padding: 0 32px;
+  }
+  .circle {
+    flex: none; width: 112px; height: 112px; border: 1.5px solid #fff; border-radius: 50%;
+    display: grid; place-items: center; transition: transform 0.3s, background 0.3s;
+  }
+  .circle svg { width: 40px; height: 40px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .cta:hover .circle { transform: rotate(-45deg); background: rgba(255, 255, 255, 0.12); }
+  .cta-text { font-weight: 700; font-size: 18px; line-height: 1.3; }
+
+  .scroll {
+    position: absolute; right: 32px; bottom: 32px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .mouse { width: 26px; height: 42px; border: 1.5px solid currentColor; border-radius: 13px; display: flex; justify-content: center; }
+  .mouse span { width: 3px; height: 8px; margin-top: 8px; border-radius: 2px; background: currentColor; animation: wheel 1.8s ease-in-out infinite; }
+  @keyframes wheel { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(12px); } }
+
+  /* Телефон и планшет: всё друг под другом */
+  @media (max-width: 900px) {
+    .hero { height: auto; display: flex; flex-direction: column; }
+    .lines .v1, .lines .v3 { display: none; }
+    .content { order: 1; padding-top: 32px; }
+    .robot { order: 2; position: relative; width: 100%; height: 360px; }
+    .glow { top: 220px; right: 50%; transform: translateX(50%); width: 120vw; height: 120vw; }
+    .giant { order: 3; position: relative; bottom: auto; margin-top: -40px; font-size: 19vw; }
+    .cta { order: 4; position: relative; width: 100%; min-width: 0; height: auto; padding: 24px 16px; margin-top: 16px; }
+    .circle { width: 72px; height: 72px; }
+    .circle svg { width: 28px; height: 28px; }
+    .scroll { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mouse span { animation: none; }
+  }
+</style>

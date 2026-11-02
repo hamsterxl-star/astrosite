@@ -3,8 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import PlanCard from '../components/PlanCard.astro';
 import CaseCard from '../components/CaseCard.astro';
-import HeroBackground from '../components/HeroBackground.astro';
-import { siteText } from '../data/site';
+import Hero from '../components/Hero.astro';
 import { plans } from '../data/services';
 import { cases } from '../data/portfolio';
 import { seo } from '../data/seo';
@@ -14,15 +13,7 @@ const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 <Layout title={seo.home[lang].title} description={seo.home[lang].description}>
-  <section class="hero">
-    <HeroBackground />
-    <h1>{siteText[lang].tagline}</h1>
-    <p class="lead">{siteText[lang].lead}</p>
-    <div class="buttons">
-      <a class="btn" href={localizePath(lang, '/contacts')}>{t('home.consult')}</a>
-      <a class="btn btn-outline" href={localizePath(lang, '/portfolio')}>{t('home.cases')}</a>
-    </div>
-  </section>
+  <Hero />
 
   <h2>{t('home.plans')}</h2>
   <div class="grid plans">
@@ -54,8 +45,6 @@ const t = useTranslations(lang);
 </Layout>
 
 <style>
-  .hero { position: relative; isolation: isolate; padding-block: 56px 88px; }
-  .hero h1 { margin-top: 0; max-width: 760px; }
   .plans { margin-top: 12px; }
   .steps { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   .num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 800; }
