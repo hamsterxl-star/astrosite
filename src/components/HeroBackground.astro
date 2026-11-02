@@ -1,5 +1,5 @@
 ---
-// Фон первого экрана: мягкие цветные пятна, сетка из точек
+// Фон первого экрана: светлые геометрические грани, ломаные линии «роста»
 // и еле заметные плавающие иконки (сайт, поиск, график, реклама).
 // Иконки — простые SVG-рисунки. Чтобы убрать иконку, удалите её строку в списке floaters.
 
@@ -21,7 +21,6 @@ const icons = {
 const floaters = [
   { icon: 'browser', top: 10, left: 69, size: 64, dur: 18, delay: 0 },
   { icon: 'search', top: 60, left: 68, size: 44, dur: 14, delay: -4 },
-  { icon: 'chart', top: 22, left: 86, size: 56, dur: 20, delay: -8 },
   { icon: 'cursor', top: 70, left: 88, size: 32, dur: 12, delay: -2 },
   { icon: 'target', top: 44, left: 78, size: 40, dur: 16, delay: -10 },
   { icon: 'megaphone', top: 78, left: 56, size: 40, dur: 19, delay: -6 },
@@ -32,10 +31,35 @@ const floaters = [
 ] as const;
 ---
 <div class="hero-bg" aria-hidden="true">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="dots"></div>
+  <!-- Правая часть: грани и линии прижаты к правому краю экрана. -->
+  <svg class="shapes right" viewBox="560 0 880 520" preserveAspectRatio="xMaxYMax meet">
+    <!-- Светлые грани (low-poly) -->
+    <polygon class="facet f1" points="900,0 1440,0 1440,180 1130,240" />
+    <polygon class="facet f2" points="1130,240 1440,180 1440,520 1240,520" />
+    <polygon class="facet f3" points="980,520 1130,240 1240,520" />
+    <polygon class="facet f2" points="900,0 1130,240 1010,170" />
+
+    <!-- Ломаная линия роста со стрелкой, как в логотипе -->
+    <polyline class="line" points="760,430 880,350 960,390 1070,250 1150,290 1290,120" />
+    <path class="line" d="M1250,118 L1294,116 L1282,158" />
+    {[[880, 350], [960, 390], [1070, 250], [1150, 290]].map(([x, y]) => (
+      <circle class="node" cx={x} cy={y} r="5" />
+    ))}
+
+    <!-- Пунктирная ломаная, по ней медленно «бегут» штрихи -->
+    <polyline class="dash" points="600,500 720,460 800,480 940,410 1040,440 1200,360 1440,330" />
+
+    <!-- Тонкие изломы-уголки -->
+    <polyline class="line thin" points="1330,420 1370,460 1410,420" />
+    <polyline class="line thin" points="1330,440 1370,480 1410,440" />
+    <polyline class="line thin" points="580,60 610,30 640,60" />
+  </svg>
+  <!-- Левая часть: пара граней и пунктир у левого края. -->
+  <svg class="shapes left" viewBox="0 0 260 520" preserveAspectRatio="xMinYMid meet">
+    <polygon class="facet f1" points="0,0 220,0 90,130" />
+    <polygon class="facet f3" points="0,380 150,520 0,520" />
+    <polyline class="dash thin" points="0,250 70,210 130,240 230,170" />
+  </svg>
   {floaters.map((f) => (
     <svg
       class="floater"
@@ -55,21 +79,20 @@ const floaters = [
     transform: translateX(-50%);
     overflow: hidden;
     z-index: -1;
-    background: linear-gradient(180deg, var(--hero-top) 0%, var(--bg) 100%);
-    /* Нижний край плавно растворяется в фоне страницы. */
-    mask-image: linear-gradient(180deg, #000 75%, transparent 100%);
+    background: var(--hero-bg);
+    border-bottom: 1px solid var(--border);
   }
-  .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; animation: drift 26s ease-in-out infinite alternate; }
-  .blob-1 { width: 460px; height: 460px; background: var(--hero-blue); top: -140px; right: 6%; }
-  .blob-2 { width: 380px; height: 380px; background: var(--accent-soft); bottom: -160px; right: 32%; animation-delay: -9s; }
-  .blob-3 { width: 300px; height: 300px; background: var(--hero-blue); top: 30%; left: -120px; opacity: 0.3; animation-delay: -17s; }
-  .dots {
-    position: absolute; inset: 0;
-    background-image: radial-gradient(var(--hero-dot) 1px, transparent 1px);
-    background-size: 26px 26px;
-    /* Точки видны справа и плавно исчезают к тексту слева. */
-    mask-image: linear-gradient(90deg, transparent 20%, #000 75%);
-  }
+  .shapes { position: absolute; top: 0; height: 100%; width: auto; }
+  .shapes.right { right: 0; }
+  .shapes.left { left: 0; }
+  .facet.f1 { fill: #edf3ff; }
+  .facet.f2 { fill: #e4edff; }
+  .facet.f3 { fill: #f2f6ff; }
+  .line, .dash { fill: none; stroke: var(--hero-icon); stroke-linecap: round; stroke-linejoin: round; }
+  .line { stroke-width: 2; opacity: 0.35; }
+  .line.thin { stroke-width: 1.5; opacity: 0.3; }
+  .node { fill: var(--hero-bg); stroke: var(--hero-icon); stroke-width: 2; opacity: 0.45; }
+  .dash { stroke-width: 1.5; stroke-dasharray: 6 10; opacity: 0.3; animation: dash 30s linear infinite; }
   .floater {
     position: absolute;
     fill: none; stroke: var(--hero-icon); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round;
@@ -80,18 +103,17 @@ const floaters = [
     from { transform: translate(0, 0) rotate(-4deg); }
     to { transform: translate(14px, -22px) rotate(5deg); }
   }
-  @keyframes drift {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(-40px, 30px) scale(1.12); }
+  @keyframes dash {
+    to { stroke-dashoffset: -320; }
   }
   /* На телефоне иконок меньше и они бледнее, чтобы не мешать тексту. */
   @media (max-width: 700px) {
     .floater { opacity: 0.13; }
-    .floater:nth-of-type(n + 7) { display: none; }
-    .dots { mask-image: linear-gradient(180deg, transparent 30%, #000 100%); }
+    .floater:nth-of-type(n + 8) { display: none; }
+    .shapes { opacity: 0.4; }
   }
   /* Если посетитель отключил анимации в системе, фон стоит на месте. */
   @media (prefers-reduced-motion: reduce) {
-    .floater, .blob { animation: none; }
+    .floater, .dash { animation: none; }
   }
 </style>

@@ -19,11 +19,8 @@ const langs = Object.keys(languages) as Lang[];
 <header class="header">
   <div class="container header-inner">
     <a href={localizePath(lang, '/')} class="logo">
-      <!-- Логотип: файлы лежат в public/. В тёмной теме показывается светлая версия. -->
-      <picture>
-        <source srcset="/logo-dark.png" media="(prefers-color-scheme: dark)" />
-        <img src="/logo.png" alt={siteText[lang].name} width="534" height="160" />
-      </picture>
+      <!-- Логотип: файл лежит в public/logo.png. -->
+      <img src="/logo.png" alt={siteText[lang].name} width="534" height="160" />
     </a>
     <nav>
       {links.map((link) => (
