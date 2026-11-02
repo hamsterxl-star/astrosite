@@ -19,16 +19,14 @@ const icons = {
 // Где стоит каждая иконка (в % от размеров блока), её размер и скорость.
 // Большинство иконок справа, чтобы не мешать тексту слева.
 const floaters = [
-  { icon: 'browser', top: 10, left: 69, size: 64, dur: 18, delay: 0 },
-  { icon: 'search', top: 60, left: 68, size: 44, dur: 14, delay: -4 },
-  { icon: 'cursor', top: 70, left: 88, size: 32, dur: 12, delay: -2 },
-  { icon: 'target', top: 44, left: 78, size: 40, dur: 16, delay: -10 },
+  { icon: 'browser', top: 4, left: 60, size: 64, dur: 18, delay: 0 },
   { icon: 'megaphone', top: 78, left: 56, size: 40, dur: 19, delay: -6 },
   { icon: 'link', top: 6, left: 42, size: 30, dur: 15, delay: -3 },
   { icon: 'code', top: 36, left: 95, size: 34, dur: 17, delay: -12 },
   { icon: 'click', top: 84, left: 26, size: 30, dur: 13, delay: -7 },
   { icon: 'globe', top: 8, left: 4, size: 34, dur: 21, delay: -9 },
 ] as const;
+import HeroRobot from './HeroRobot.astro';
 ---
 <div class="hero-bg" aria-hidden="true">
   <!-- Правая часть: грани и линии прижаты к правому краю экрана. -->
@@ -68,6 +66,8 @@ const floaters = [
       set:html={icons[f.icon]}
     />
   ))}
+  <!-- Робот стоит поверх иконок -->
+  <HeroRobot />
 </div>
 
 <style>
