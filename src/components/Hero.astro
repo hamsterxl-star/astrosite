@@ -41,7 +41,6 @@ const hasRobot = fs.existsSync('public/hero-robot.webp');
 
 <style>
   .hero {
-    --blue: #1d7fe6;
     position: relative;
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -59,7 +58,7 @@ const hasRobot = fs.existsSync('public/hero-robot.webp');
 
   .glow {
     position: absolute; right: 8%; top: 12%; width: 46vw; height: 46vw; max-width: 640px; max-height: 640px;
-    background: radial-gradient(circle, rgba(29, 127, 230, 0.18), transparent 65%);
+    background: radial-gradient(circle, rgba(10, 115, 235, 0.16), transparent 65%);
   }
 
   .robot {
@@ -81,7 +80,7 @@ const hasRobot = fs.existsSync('public/hero-robot.webp');
   /* Синий блок с круглой кнопкой */
   .cta {
     position: absolute; left: 0; bottom: 0; width: 25%; min-width: 300px; height: 33.333%;
-    background: var(--blue); color: #fff; text-decoration: none;
+    background: var(--brand-blue); color: var(--on-brand); text-decoration: none;
     display: flex; align-items: center; gap: 20px; padding: 0 32px;
   }
   .circle {
@@ -89,6 +88,7 @@ const hasRobot = fs.existsSync('public/hero-robot.webp');
     display: grid; place-items: center; transition: transform 0.3s, background 0.3s;
   }
   .circle svg { width: 40px; height: 40px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .cta:hover { background: var(--brand-blue-hover); }
   .cta:hover .circle { transform: rotate(-45deg); background: rgba(255, 255, 255, 0.12); }
   .cta-text { font-weight: 700; font-size: 18px; line-height: 1.3; }
 

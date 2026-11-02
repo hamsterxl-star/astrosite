@@ -27,7 +27,7 @@ const langs = Object.keys(languages) as Lang[];
       {links.map((link) => (
         <a href={localizePath(lang, link.path)} class:list={{ active: current === link.path }}>{link.label}</a>
       ))}
-      <a href={localizePath(lang, '/audit')} class:list={['audit-btn', { current: current === '/audit' }]}>{t('nav.audit')}</a>
+      <a href={localizePath(lang, '/audit')} class:list={['btn', 'btn-sm', 'audit-btn', { current: current === '/audit' }]}>{t('nav.audit')}</a>
       <span class="langs">
         {langs.map((l) => (
           <a href={localizePath(l, current)} hreflang={l} lang={l} class:list={{ active: l === lang }}>{languages[l]}</a>
@@ -71,13 +71,14 @@ const langs = Object.keys(languages) as Lang[];
     width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
     background: var(--bg); cursor: pointer; font-size: 16px; line-height: 1; padding: 0;
   }
-  .theme-toggle:hover { border-color: var(--accent); }
+  .theme-toggle:hover { border-color: var(--accent); background: var(--accent-soft); }
   .icon-sun { display: none; }
   :global([data-theme='dark']) .icon-sun { display: inline; }
   :global([data-theme='dark']) .icon-moon { display: none; }
-  nav a.audit-btn { background: #1d7fe6; color: #fff; font-weight: 700; padding: 7px 16px; border-radius: 999px; white-space: nowrap; }
-  nav a.audit-btn:hover, nav a.audit-btn.current { background: #1667bd; color: #fff; }
+  /* Кнопка аудита использует общий стиль .btn; здесь только защита от цвета обычных ссылок меню */
+  nav a.audit-btn, nav a.audit-btn:hover { color: var(--on-brand); white-space: nowrap; }
+  nav a.audit-btn.current { background: var(--brand-blue-hover); border-color: var(--brand-blue-hover); }
   .langs { display: flex; gap: 2px; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
   .langs a { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
-  .langs a.active { background: var(--accent); color: var(--bg); }
+  .langs a.active { background: var(--brand-blue); color: var(--on-brand); }
 </style>
