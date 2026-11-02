@@ -40,6 +40,10 @@ const langs = Object.keys(languages) as Lang[];
     --border: #e6e4ef;
     --accent: #5b21b6;
     --accent-soft: #ede9fe;
+    --hero-top: #eef3ff;
+    --hero-blue: #cfe0ff;
+    --hero-dot: #c9cfe0;
+    --hero-icon: #0a73eb;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -50,10 +54,14 @@ const langs = Object.keys(languages) as Lang[];
       --border: #2c2a36;
       --accent: #a78bfa;
       --accent-soft: #2e2546;
+      --hero-top: #171a2a;
+      --hero-blue: #1b2c55;
+      --hero-dot: #2a2e40;
+      --hero-icon: #6aa8ff;
     }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
+  body { overflow-x: clip; margin: 0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: var(--bg); color: var(--text); }
   .container { max-width: 1080px; margin: 0 auto; padding-inline: 16px; }
   h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.15; margin: 48px 0 16px; }
   h2 { font-size: clamp(24px, 3.5vw, 34px); margin: 64px 0 24px; }
