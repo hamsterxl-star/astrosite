@@ -27,6 +27,7 @@ const langs = Object.keys(languages) as Lang[];
       {links.map((link) => (
         <a href={localizePath(lang, link.path)} class:list={{ active: current === link.path }}>{link.label}</a>
       ))}
+      <a href={localizePath(lang, '/audit')} class:list={['audit-btn', { current: current === '/audit' }]}>{t('nav.audit')}</a>
       <span class="langs">
         {langs.map((l) => (
           <a href={localizePath(l, current)} hreflang={l} lang={l} class:list={{ active: l === lang }}>{languages[l]}</a>
@@ -74,6 +75,8 @@ const langs = Object.keys(languages) as Lang[];
   .icon-sun { display: none; }
   :global([data-theme='dark']) .icon-sun { display: inline; }
   :global([data-theme='dark']) .icon-moon { display: none; }
+  nav a.audit-btn { background: #1d7fe6; color: #fff; font-weight: 700; padding: 7px 16px; border-radius: 999px; white-space: nowrap; }
+  nav a.audit-btn:hover, nav a.audit-btn.current { background: #1667bd; color: #fff; }
   .langs { display: flex; gap: 2px; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
   .langs a { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
   .langs a.active { background: var(--accent); color: var(--bg); }

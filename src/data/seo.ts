@@ -59,4 +59,18 @@ export const seo = {
       description: 'Get in touch via Telegram, WhatsApp or email, or order an audit of your website.',
     },
   },
+  audit: {
+    es: {
+      title: 'Auditoría web y SEO por 99 € | seo2go',
+      description: 'Auditoría completa de su sitio por 99 €: velocidad, SEO, versión móvil, formularios, seguridad y políticas. Informe con plan de acción en 2 días laborables.',
+    },
+    ru: {
+      title: 'Аудит сайта и SEO за 99 € | seo2go',
+      description: 'Полный аудит сайта за 99 €: скорость, SEO, мобильная версия, формы, безопасность и правила. Отчёт с планом исправлений за 2 рабочих дня.',
+    },
+    en: {
+      title: 'Website and SEO audit for €99 | seo2go',
+      description: 'A full website audit for €99: speed, SEO, mobile, forms, security and policies. A report with an action plan within 2 working days.',
+    },
+  },
 };

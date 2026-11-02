@@ -1,0 +1,115 @@
+---
+// Страница «Аудит сайта за 99 €» на любом языке. Тексты лежат в src/data/audit.ts.
+import Layout from '../layouts/Layout.astro';
+import { audit } from '../data/audit';
+import { seo } from '../data/seo';
+import { getLang, localizePath } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const a = audit[lang];
+// Кнопки «Заказать» ведут на форму заявки на странице контактов.
+const orderHref = `${localizePath(lang, '/contacts')}#audit-form`;
+---
+<Layout title={seo.audit[lang].title} description={seo.audit[lang].description}>
+  <section class="intro">
+    <p class="kicker">{a.kicker}</p>
+    <h1>{a.title}</h1>
+    <p class="lead">{a.lead}</p>
+    <div class="buttons">
+      <a class="btn" href={orderHref}>{a.order}</a>
+      <a class="btn btn-outline" href="#areas">{a.what}</a>
+    </div>
+    <ul class="facts">
+      {a.facts.map((f) => <li>✓ {f}</li>)}
+    </ul>
+  </section>
+
+  <section class="why card">
+    <h2>{a.whyTitle}</h2>
+    <p class="lead">{a.whyText}</p>
+  </section>
+
+  <h2 id="areas">{a.areasTitle}</h2>
+  <div class="grid">
+    {a.areas.map((area, i) => (
+      <article class="card area">
+        <div class="area-head"><span class="icon">{area.icon}</span><span class="num">0{i + 1}</span></div>
+        <h3>{area.title}</h3>
+        <ul>{area.items.map((item) => <li>{item}</li>)}</ul>
+      </article>
+    ))}
+  </div>
+  <p class="note">{a.areasNote}</p>
+
+  <div class="two-cols">
+    <section>
+      <h2>{a.reportTitle}</h2>
+      <ul class="checks">{a.report.map((r) => <li>{r}</li>)}</ul>
+    </section>
+    <section>
+      <h2>{a.whenTitle}</h2>
+      <ul class="checks">{a.when.map((w) => <li>{w}</li>)}</ul>
+    </section>
+  </div>
+
+  <h2>{a.stepsTitle}</h2>
+  <div class="grid steps">
+    {a.steps.map((s, i) => (
+      <div class="card">
+        <div class="step-num">{i + 1}</div>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2>{a.faqTitle}</h2>
+  <div class="faq">
+    {a.faq.map((f) => (
+      <details class="card">
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+
+  <section class="cta">
+    <h2>{a.ctaTitle}</h2>
+    <p>{a.ctaText}</p>
+    <a class="btn btn-white" href={orderHref}>{a.order}</a>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-top: 24px; }
+  .kicker { margin: 40px 0 0; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .intro h1 { margin-top: 12px; max-width: 760px; }
+  .facts { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 24px; font-weight: 600; }
+  .facts li { color: var(--text); }
+  .why { margin-top: 56px; padding: 32px; }
+  .why h2 { margin-top: 0; }
+  .why .lead { margin: 0; max-width: 820px; }
+  .area-head { display: flex; justify-content: space-between; align-items: center; }
+  .area .icon { font-size: 30px; }
+  .area .num { font-weight: 800; color: var(--muted); opacity: 0.6; }
+  .area h3 { margin: 12px 0 8px; }
+  .area ul { margin: 0; padding-left: 18px; color: var(--muted); }
+  .area li { margin-bottom: 6px; }
+  .note { color: var(--muted); font-size: 14px; }
+  .two-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 48px; }
+  .checks { list-style: none; padding: 0; margin: 0; }
+  .checks li { padding: 12px 0 12px 32px; border-bottom: 1px solid var(--border); position: relative; }
+  .checks li::before { content: '✓'; position: absolute; left: 4px; color: var(--accent); font-weight: 800; }
+  .steps { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 800; }
+  .steps h3 { margin: 12px 0 4px; }
+  .steps p { color: var(--muted); margin: 0; }
+  .faq { display: grid; gap: 12px; }
+  .faq details { padding: 18px 24px; }
+  .faq summary { cursor: pointer; font-weight: 700; }
+  .faq details p { color: var(--muted); margin: 12px 0 0; }
+  .cta { margin-top: 72px; padding: 48px 24px; text-align: center; background: #1d7fe6; color: #fff; border-radius: 16px; }
+  .cta h2 { margin: 0 0 12px; }
+  .cta p { margin: 0 auto 24px; max-width: 560px; font-size: 18px; opacity: 0.9; }
+  .btn-white { background: #fff; color: #1d7fe6; }
+</style>
