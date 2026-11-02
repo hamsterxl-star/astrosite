@@ -19,8 +19,9 @@ const langs = Object.keys(languages) as Lang[];
 <header class="header">
   <div class="container header-inner">
     <a href={localizePath(lang, '/')} class="logo">
-      <!-- Логотип: файл лежит в public/logo.png. -->
-      <img src="/logo.png" alt={siteText[lang].name} width="534" height="160" />
+      <!-- Логотип: public/logo.png, в тёмной теме — светлая версия public/logo-dark.png. -->
+      <img class="logo-light" src="/logo.png" alt={siteText[lang].name} width="534" height="160" />
+      <img class="logo-dark" src="/logo-dark.png" alt={siteText[lang].name} width="534" height="160" />
     </a>
     <nav>
       {links.map((link) => (
@@ -31,9 +32,27 @@ const langs = Object.keys(languages) as Lang[];
           <a href={localizePath(l, current)} hreflang={l} lang={l} class:list={{ active: l === lang }}>{languages[l]}</a>
         ))}
       </span>
+      <button class="theme-toggle" type="button" aria-label={t('theme.toggle')} title={t('theme.toggle')}>
+        <span class="icon-moon">🌙</span><span class="icon-sun">☀️</span>
+      </button>
     </nav>
   </div>
 </header>
+
+<script>
+  // Кнопка темы: переключает светлую/тёмную и запоминает выбор в браузере.
+  for (const button of document.querySelectorAll('.theme-toggle')) {
+    button.addEventListener('click', () => {
+      const root = document.documentElement;
+      const dark = root.dataset.theme !== 'dark';
+      if (dark) root.dataset.theme = 'dark';
+      else delete root.dataset.theme;
+      try {
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      } catch {}
+    });
+  }
+</script>
 
 <style>
   .header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; }
@@ -44,6 +63,17 @@ const langs = Object.keys(languages) as Lang[];
   nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
   nav a:hover, nav a.active { color: var(--accent); }
+  .logo-dark { display: none; }
+  :global([data-theme='dark']) .logo-light { display: none; }
+  :global([data-theme='dark']) .logo-dark { display: inline; }
+  .theme-toggle {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+    background: var(--bg); cursor: pointer; font-size: 16px; line-height: 1; padding: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .icon-sun { display: none; }
+  :global([data-theme='dark']) .icon-sun { display: inline; }
+  :global([data-theme='dark']) .icon-moon { display: none; }
   .langs { display: flex; gap: 2px; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
   .langs a { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
   .langs a.active { background: var(--accent); color: var(--bg); }

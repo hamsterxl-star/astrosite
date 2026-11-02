@@ -59,6 +59,7 @@ export const ui = {
     'form.mailSite': 'Sitio',
     'form.mailPhone': 'Teléfono',
     'form.mailMessenger': 'Contactar por',
+    'theme.toggle': 'Cambiar tema claro/oscuro',
   },
   ru: {
     'nav.home': 'Главная',
@@ -96,6 +97,7 @@ export const ui = {
     'form.mailSite': 'Сайт',
     'form.mailPhone': 'Телефон',
     'form.mailMessenger': 'Связаться через',
+    'theme.toggle': 'Переключить светлую/тёмную тему',
   },
   en: {
     'nav.home': 'Home',
@@ -133,6 +135,7 @@ export const ui = {
     'form.mailSite': 'Website',
     'form.mailPhone': 'Phone',
     'form.mailMessenger': 'Contact via',
+    'theme.toggle': 'Toggle light/dark theme',
   },
 } as const;
 

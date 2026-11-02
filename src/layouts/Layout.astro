@@ -15,6 +15,13 @@ const langs = Object.keys(languages) as Lang[];
 ---
 <html lang={lang}>
   <head>
+    <!-- Тема (светлая/тёмная) применяется до отрисовки страницы, чтобы не было мигания.
+         Выбор посетителя запоминается в браузере. По умолчанию — светлая. -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+      } catch {}
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
@@ -42,6 +49,25 @@ const langs = Object.keys(languages) as Lang[];
     --accent-soft: #ede9fe;
     --hero-bg: #f8faff;
     --hero-icon: #0a73eb;
+    --facet-1: #edf3ff;
+    --facet-2: #e4edff;
+    --facet-3: #f2f6ff;
+  }
+  /* Тёмная тема: включается кнопкой ☀️/🌙 в шапке. */
+  :root[data-theme='dark'] {
+    --bg: #121117;
+    --surface: #1c1b24;
+    --text: #f1f0f5;
+    --muted: #a9a6b8;
+    --border: #2c2a36;
+    --accent: #a78bfa;
+    --accent-soft: #2e2546;
+    --hero-bg: #151622;
+    --hero-icon: #6aa8ff;
+    --facet-1: #1a1e30;
+    --facet-2: #1e2438;
+    --facet-3: #181b2a;
+    color-scheme: dark;
   }
 
   * { box-sizing: border-box; }
