@@ -32,3 +32,8 @@ export const siteText = {
 // Получить бесплатно: https://web3forms.com → ввести свою почту → ключ придёт на неё.
 // Пока ключ пустой, форма открывает почтовую программу с готовым письмом.
 export const formAccessKey = '';
+
+// Ключ Google PageSpeed для блока «Проверьте скорость сайта» на главной.
+// Получить бесплатно: https://developers.google.com/speed/docs/insights/v5/get-started → кнопка «Get a Key».
+// Пока ключ пустой, блок проверки скорости на сайте не показывается.
+export const pageSpeedKey = '';

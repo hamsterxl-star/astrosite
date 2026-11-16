@@ -1,8 +1,12 @@
 ---
 // Карточка одного проекта из портфолио.
-const { title, niche, task, results = [], period, description } = Astro.props;
+import fs from 'node:fs';
+const { title, niche, task, results = [], period, description, image } = Astro.props;
+// Картинка показывается, только если файл лежит в папке public.
+const hasImage = image && fs.existsSync(`public${image}`);
 ---
 <article class="card">
+  {hasImage && <img class="shot" src={image} alt={title} loading="lazy" />}
   <span class="tag">{niche}</span>
   <h3>{title}</h3>
   <p class="task">{task}</p>
@@ -14,6 +18,7 @@ const { title, niche, task, results = [], period, description } = Astro.props;
 </article>
 
 <style>
+  .shot { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; border-radius: 10px; margin-bottom: 16px; border: 1px solid var(--border); }
   .tag { display: inline-block; font-size: 13px; background: var(--accent-soft); color: var(--accent); padding: 2px 10px; border-radius: 999px; }
   h3 { margin: 12px 0 4px; font-size: 22px; }
   .task { color: var(--muted); margin: 0 0 12px; }

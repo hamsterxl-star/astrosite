@@ -33,10 +33,6 @@ export const ui = {
     'hero.scroll': 'Desliza',
     'home.consult': 'Consulta gratuita',
     'home.cases': 'Ver casos',
-    'home.plans': 'Tarifas',
-    'home.moreServices': 'Más sobre los servicios →',
-    'home.howIWork': 'Cómo trabajo',
-    'home.projects': 'Proyectos',
     'home.ctaTitle': '¿Quiere más clientes desde los buscadores?',
     'home.ctaText': 'Escríbame y revisaré su sitio gratis para indicarle por dónde empezar.',
     'home.ctaButton': 'Escribirme',
@@ -74,10 +70,6 @@ export const ui = {
     'hero.scroll': 'Листайте',
     'home.consult': 'Бесплатная консультация',
     'home.cases': 'Смотреть кейсы',
-    'home.plans': 'Тарифы',
-    'home.moreServices': 'Подробнее об услугах →',
-    'home.howIWork': 'Как я работаю',
-    'home.projects': 'Проекты',
     'home.ctaTitle': 'Хотите больше клиентов из поиска?',
     'home.ctaText': 'Напишите, и я бесплатно посмотрю ваш сайт и подскажу, с чего начать.',
     'home.ctaButton': 'Написать мне',
@@ -115,10 +107,6 @@ export const ui = {
     'hero.scroll': 'Scroll down',
     'home.consult': 'Free consultation',
     'home.cases': 'See case studies',
-    'home.plans': 'Plans',
-    'home.moreServices': 'More about the services →',
-    'home.howIWork': 'How I work',
-    'home.projects': 'Projects',
     'home.ctaTitle': 'Want more customers from search?',
     'home.ctaText': 'Get in touch and I will review your website for free and tell you where to start.',
     'home.ctaButton': 'Contact me',
@@ -154,25 +142,3 @@ export type UiKey = keyof (typeof ui)['ru'];
 export function useTranslations(lang: Lang) {
   return (key: UiKey): string => ui[lang][key];
 }
-
-// Этапы работы на главной странице.
-export const steps = {
-  es: [
-    { title: 'Primer contacto', text: 'Hablamos de su negocio, sus objetivos y su presupuesto.' },
-    { title: 'Auditoría', text: 'Analizo su sitio y la competencia y encuentro oportunidades de crecimiento.' },
-    { title: 'Trabajo', text: 'Aplico los cambios siguiendo un plan claro.' },
-    { title: 'Informe', text: 'Cada mes le muestro los resultados en cifras.' },
-  ],
-  ru: [
-    { title: 'Знакомство', text: 'Обсуждаем ваш бизнес, цели и бюджет.' },
-    { title: 'Аудит', text: 'Изучаю сайт и конкурентов, нахожу точки роста.' },
-    { title: 'Работа', text: 'Внедряю изменения по понятному плану.' },
-    { title: 'Отчёт', text: 'Каждый месяц показываю результаты в цифрах.' },
-  ],
-  en: [
-    { title: 'Introduction', text: 'We discuss your business, goals and budget.' },
-    { title: 'Audit', text: 'I study your website and competitors and find growth opportunities.' },
-    { title: 'Work', text: 'I implement changes following a clear plan.' },
-    { title: 'Report', text: 'Every month I show you the results in numbers.' },
-  ],
-};

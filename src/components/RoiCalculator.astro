@@ -1,0 +1,80 @@
+---
+// Калькулятор окупаемости продвижения. Считает прямо в браузере, ничего никуда не отправляет.
+// Формула: новые посетители = посетители × рост; новые заявки = новые посетители × (заявки / посетители);
+// новые клиенты = новые заявки × доля клиентов; доход = новые клиенты × средний чек.
+import { home } from '../data/home';
+import { plans } from '../data/services';
+import { getLang } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const c = home[lang].calc;
+const locale = { es: 'es-ES', ru: 'ru-RU', en: 'en-GB' }[lang];
+---
+<section class="card calc" id="roi-calc" data-locale={locale}>
+  <h2>{c.title}</h2>
+  <p class="sub">{c.lead}</p>
+  <div class="body">
+    <div class="fields">
+      <label><span>{c.visitors}</span><input type="number" name="visitors" value="1000" min="1" /></label>
+      <label><span>{c.leads}</span><input type="number" name="leads" value="20" min="0" /></label>
+      <label><span>{c.close}</span><input type="number" name="close" value="30" min="0" max="100" /></label>
+      <label><span>{c.check}</span><input type="number" name="check" value="300" min="0" /></label>
+      <label><span>{c.growth}</span><input type="number" name="growth" value="50" min="0" /></label>
+      <label>
+        <span>{c.plan}</span>
+        <select name="plan">
+          {plans[lang].map((p) => <option value={p.priceValue} selected={p.top}>{p.title}, {p.price}</option>)}
+        </select>
+      </label>
+    </div>
+    <div class="out">
+      <div><span>{c.clients}</span><strong data-out="clients"></strong></div>
+      <div><span>{c.revenue}</span><strong data-out="revenue"></strong></div>
+      <div class="total"><span>{c.profit}</span><strong data-out="profit"></strong></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const calc = document.getElementById('roi-calc') as HTMLElement | null;
+  if (calc) {
+    const num = (name: string) => Math.max(0, Number((calc.querySelector(`[name="${name}"]`) as HTMLInputElement).value) || 0);
+    const out = (name: string) => calc.querySelector(`[data-out="${name}"]`) as HTMLElement;
+    const money = new Intl.NumberFormat(calc.dataset.locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const count = new Intl.NumberFormat(calc.dataset.locale, { maximumFractionDigits: 1 });
+
+    const update = () => {
+      const visitors = num('visitors');
+      const leadRate = visitors > 0 ? num('leads') / visitors : 0;
+      const newLeads = visitors * (num('growth') / 100) * leadRate;
+      const newClients = newLeads * (Math.min(num('close'), 100) / 100);
+      const revenue = newClients * num('check');
+      out('clients').textContent = `+${count.format(newClients)}`;
+      out('revenue').textContent = `+${money.format(revenue)}`;
+      out('profit').textContent = money.format(revenue - num('plan'));
+    };
+    calc.addEventListener('input', update);
+    update();
+  }
+</script>
+
+<style>
+  .calc { margin-top: 64px; }
+  h2 { margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; font-weight: 600; font-size: 15px; }
+  input, select { font: inherit; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); width: 100%; box-sizing: border-box; }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .out { background: var(--brand-blue); color: var(--on-brand); border-radius: 16px; padding: 24px; display: grid; gap: 16px; }
+  .out div { display: flex; flex-direction: column; gap: 2px; }
+  .out span { font-size: 14px; opacity: 0.85; }
+  .out strong { font-size: 26px; font-weight: 800; }
+  .out .total { border-top: 1px solid rgba(255, 255, 255, 0.35); padding-top: 16px; }
+  .out .total strong { font-size: 34px; }
+  @media (max-width: 760px) {
+    .body { grid-template-columns: 1fr; }
+    .fields { grid-template-columns: 1fr; }
+  }
+</style>

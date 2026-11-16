@@ -1,11 +1,14 @@
 // Тарифы SEO-продвижения на трёх языках.
 // Чтобы добавить тариф, скопируйте один блок { ... } в КАЖДОМ языке и измените текст.
 // top: true — тариф выделяется меткой «ТОП».
+// price — как цена показана на сайте; priceValue — то же число для калькулятора на главной.
+// Цены в евро: примерно на 20% ниже средних по Испании (ориентир на ноябрь 2026: 450 / 700 / 1500 € в месяц).
 export const plans = {
   es: [
     {
       title: 'Básica',
-      price: '55 000 ₽ / mes',
+      price: '360 € / mes',
+      priceValue: 360,
       description: 'Una buena opción para conseguir las primeras solicitudes con SEO.',
       features: [
         '150 parámetros SEO y 20 factores comerciales',
@@ -17,7 +20,8 @@ export const plans = {
     },
     {
       title: 'Óptima',
-      price: '85 000 ₽ / mes',
+      price: '560 € / mes',
+      priceValue: 560,
       description: 'Una tarifa ideal para sitios de servicios: crecimiento rápido de leads.',
       top: true,
       features: [
@@ -31,7 +35,8 @@ export const plans = {
     },
     {
       title: 'Ampliada',
-      price: '119 000 ₽ / mes',
+      price: '1 200 € / mes',
+      priceValue: 1200,
       description: 'Su equipo de ventas no dará abasto: un gran núcleo semántico y muchísimas solicitudes.',
       features: [
         '500 parámetros SEO y 45 factores comerciales',
@@ -46,7 +51,8 @@ export const plans = {
   ru: [
     {
       title: 'Базовый',
-      price: '55 000 ₽ / мес',
+      price: '360 € / мес',
+      priceValue: 360,
       description: 'Хороший вариант для получения первых заявок с SEO.',
       features: [
         '150 SEO-параметров и 20 коммерческих факторов',
@@ -58,7 +64,8 @@ export const plans = {
     },
     {
       title: 'Оптимальный',
-      price: '85 000 ₽ / мес',
+      price: '560 € / мес',
+      priceValue: 560,
       description: 'Отличный тариф для сайта услуг, стремительный прирост лидов.',
       top: true,
       features: [
@@ -72,7 +79,8 @@ export const plans = {
     },
     {
       title: 'Расширенный',
-      price: '119 000 ₽ / мес',
+      price: '1 200 € / мес',
+      priceValue: 1200,
       description: 'Ваш отдел продаж будет в огне: большое ядро и очень много заявок.',
       features: [
         '500 SEO-параметров и 45 коммерческих факторов',
@@ -87,7 +95,8 @@ export const plans = {
   en: [
     {
       title: 'Basic',
-      price: '55,000 ₽ / month',
+      price: '€360 / month',
+      priceValue: 360,
       description: 'A good option for getting your first leads from SEO.',
       features: [
         '150 SEO parameters and 20 commercial factors',
@@ -99,7 +108,8 @@ export const plans = {
     },
     {
       title: 'Optimal',
-      price: '85,000 ₽ / month',
+      price: '€560 / month',
+      priceValue: 560,
       description: 'A great plan for service websites: rapid growth in leads.',
       top: true,
       features: [
@@ -113,7 +123,8 @@ export const plans = {
     },
     {
       title: 'Extended',
-      price: '119,000 ₽ / month',
+      price: '€1,200 / month',
+      priceValue: 1200,
       description: 'Your sales team will be on fire: a large keyword core and lots of leads.',
       features: [
         '500 SEO parameters and 45 commercial factors',

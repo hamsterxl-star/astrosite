@@ -1,0 +1,91 @@
+---
+// Бесплатная проверка скорости сайта через Google PageSpeed.
+// Работает, только если в src/data/site.ts заполнен pageSpeedKey; иначе блок не показывается.
+// После проверки адрес сайта подставляется в форму заявки на аудит.
+import { pageSpeedKey } from '../data/site';
+import { home } from '../data/home';
+import { getLang } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const a = home[lang].audit;
+const messages = { loading: a.scoreLoading, error: a.scoreError, good: a.scoreGood, mid: a.scoreMid, bad: a.scoreBad };
+---
+{pageSpeedKey && (
+  <form class="speed" id="speed-check" data-key={pageSpeedKey} data-messages={JSON.stringify(messages)}>
+    <h3>{a.scoreTitle}</h3>
+    <p class="hint">{a.scoreHint}</p>
+    <div class="row">
+      <input type="text" name="url" placeholder="example.com" aria-label={a.scoreTitle} required />
+      <button class="btn btn-outline" type="submit">{a.scoreButton}</button>
+    </div>
+    <p class="status" role="status"></p>
+    <div class="result" hidden>
+      <div class="score"></div>
+      <div>
+        <strong>{a.scoreLabel}</strong>
+        <p class="verdict"></p>
+        <p class="note">{a.scoreNote}</p>
+      </div>
+    </div>
+  </form>
+)}
+
+<script>
+  // Этот код работает в браузере посетителя: спрашивает у Google оценку скорости сайта.
+  const form = document.getElementById('speed-check') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.status') as HTMLElement;
+    const result = form.querySelector('.result') as HTMLElement;
+    const score = form.querySelector('.score') as HTMLElement;
+    const verdict = form.querySelector('.verdict') as HTMLElement;
+    const button = form.querySelector('button') as HTMLButtonElement;
+    const m = JSON.parse(form.dataset.messages ?? '{}');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      let url = String(new FormData(form).get('url') ?? '').trim();
+      if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
+      button.disabled = true;
+      result.hidden = true;
+      status.textContent = m.loading;
+      try {
+        const api = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
+        api.searchParams.set('url', url);
+        api.searchParams.set('strategy', 'mobile');
+        api.searchParams.set('category', 'performance');
+        api.searchParams.set('key', form.dataset.key ?? '');
+        const response = await fetch(api);
+        const data = await response.json();
+        const value = Math.round(data.lighthouseResult.categories.performance.score * 100);
+        score.textContent = String(value);
+        verdict.textContent = value >= 90 ? m.good : value >= 50 ? m.mid : m.bad;
+        status.textContent = '';
+        result.hidden = false;
+        // Подставляем адрес в форму заявки на аудит.
+        const siteField = document.querySelector('#audit-form input[name="site"]') as HTMLInputElement | null;
+        if (siteField && !siteField.value) siteField.value = url.replace(/^https?:\/\//i, '');
+      } catch {
+        status.textContent = m.error;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .speed { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+  h3 { margin: 0 0 4px; font-size: 18px; }
+  .hint { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  input { flex: 1; min-width: 180px; font: inherit; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button:disabled { opacity: 0.6; cursor: wait; }
+  .status { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  .status:empty { display: none; }
+  .result { display: flex; gap: 16px; align-items: center; margin-top: 16px; }
+  .result[hidden] { display: none; }
+  .score { flex: none; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; font-weight: 800; background: var(--brand-blue); color: var(--on-brand); }
+  .verdict { margin: 4px 0; }
+  .note { margin: 0; color: var(--muted); font-size: 14px; }
+</style>
