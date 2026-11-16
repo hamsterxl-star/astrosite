@@ -14,17 +14,17 @@ export const siteText = {
   es: {
     name: 'Alexey Pazhitnov · Posicionamiento SEO',
     tagline: 'Posicionamiento SEO de sitios web',
-    lead: 'Resultados del posicionamiento desde el primer mes. Aumentamos el número de leads un 15% al mes.',
+    lead: 'Resultados del posicionamiento a partir de 1 mes. Aumentamos el número de leads un 15% al mes.',
   },
   ru: {
     name: 'Алексей Пажитнов · SEO-продвижение',
     tagline: 'SEO-продвижение сайтов',
-    lead: 'Эффект от продвижения уже через 1 месяц. Увеличим количество лидов на 15% в месяц.',
+    lead: 'Эффект от продвижения от 1 месяца. Увеличим количество лидов на 15% в месяц.',
   },
   en: {
     name: 'Alexey Pazhitnov · SEO Promotion',
     tagline: 'SEO website promotion',
-    lead: 'Results from SEO within the first month. We grow your leads by 15% a month.',
+    lead: 'Results from SEO in as little as 1 month. We grow your leads by 15% a month.',
   },
 };
 
