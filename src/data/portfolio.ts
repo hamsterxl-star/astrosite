@@ -1,11 +1,13 @@
 // Портфолио на трёх языках.
 // image — картинка проекта из папки public/cases/. Если файла нет, карточка показывается без картинки.
+// imageFull — большая картинка, которая открывается по клику на маленькую (не обязательно).
 // Чтобы добавить проект, скопируйте один блок { ... } в КАЖДОМ языке и измените текст.
 export const cases = {
   es: [
     {
       title: 'Instalación de vallas',
       image: '/cases/fences.jpg',
+      imageFull: '/cases/fences-full.jpg',
       niche: 'Servicios · Novosibirsk',
       task: 'Posicionar el sitio en Yandex.',
       results: ['+1700% de tráfico orgánico', '+19% de conversión en solicitudes', 'Más de 500 palabras clave en el TOP-10'],
@@ -35,6 +37,7 @@ export const cases = {
     {
       title: 'Установка заборов',
       image: '/cases/fences.jpg',
+      imageFull: '/cases/fences-full.jpg',
       niche: 'Услуги · Новосибирск',
       task: 'Продвижение сайта в Яндексе.',
       results: ['+1700% посещаемости из поиска', '+19% конверсии в заявки', '500+ ключевых слов в ТОП-10'],
@@ -64,6 +67,7 @@ export const cases = {
     {
       title: 'Fence installation',
       image: '/cases/fences.jpg',
+      imageFull: '/cases/fences-full.jpg',
       niche: 'Services · Novosibirsk',
       task: 'Promote the website in Yandex.',
       results: ['+1700% organic traffic', '+19% lead conversion', '500+ keywords in the TOP-10'],
