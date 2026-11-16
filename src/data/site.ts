@@ -36,4 +36,6 @@ export const formAccessKey = '';
 // Ключ Google PageSpeed для блока «Проверьте скорость сайта» на главной.
 // Получить бесплатно: https://developers.google.com/speed/docs/insights/v5/get-started → кнопка «Get a Key».
 // Пока ключ пустой, блок проверки скорости на сайте не показывается.
-export const pageSpeedKey = '';
+// Этот ключ виден всем посетителям сайта, это нормально. Когда сайт будет на своём домене,
+// в Google Cloud стоит ограничить ключ этим доменом (Credentials → ключ → Website restrictions).
+export const pageSpeedKey = 'AIzaSyBEtTBNTu-PaYFgL4_HZMrgGipra0GRJtE';
