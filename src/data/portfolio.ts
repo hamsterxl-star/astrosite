@@ -17,6 +17,7 @@ export const cases = {
     {
       title: 'Tienda de antigüedades',
       image: '/cases/antiques.jpg',
+      imageFull: '/cases/antiques-full.jpg',
       niche: 'Tienda · Moscú',
       task: 'Crear el sitio y posicionarlo en los buscadores.',
       results: ['38% de conversión en solicitudes', '6 500 visitas al mes desde Yandex y Google', 'Más de 500 palabras clave en el TOP-10'],
@@ -26,6 +27,7 @@ export const cases = {
     {
       title: 'Reparación de relojes suizos',
       image: '/cases/watches.jpg',
+      imageFull: '/cases/watches-full.jpg',
       niche: 'Taller de relojería',
       task: 'Crear el sitio y posicionarlo en los buscadores.',
       results: ['24% de conversión en solicitudes', 'Más de 2 000 visitas desde Yandex y Google', 'Más de 800 palabras clave en el TOP-10'],
@@ -47,6 +49,7 @@ export const cases = {
     {
       title: 'Антикварный магазин',
       image: '/cases/antiques.jpg',
+      imageFull: '/cases/antiques-full.jpg',
       niche: 'Магазин · Москва',
       task: 'Создать сайт и продвинуть его в поисковых системах.',
       results: ['38% конверсия в заявки', '6 500 посетителей в месяц из Яндекса и Google', '500+ ключевых слов в ТОП-10'],
@@ -56,6 +59,7 @@ export const cases = {
     {
       title: 'Ремонт швейцарских часов',
       image: '/cases/watches.jpg',
+      imageFull: '/cases/watches-full.jpg',
       niche: 'Часовая мастерская',
       task: 'Создать сайт и продвинуть его в поисковых системах.',
       results: ['24% конверсия в заявки', '2 000+ посетителей из Яндекса и Google', '800+ ключевых слов в ТОП-10'],
@@ -77,6 +81,7 @@ export const cases = {
     {
       title: 'Antique shop',
       image: '/cases/antiques.jpg',
+      imageFull: '/cases/antiques-full.jpg',
       niche: 'Shop · Moscow',
       task: 'Build the website and promote it in search engines.',
       results: ['38% lead conversion', '6,500 visitors a month from Yandex and Google', '500+ keywords in the TOP-10'],
@@ -86,6 +91,7 @@ export const cases = {
     {
       title: 'Swiss watch repair',
       image: '/cases/watches.jpg',
+      imageFull: '/cases/watches-full.jpg',
       niche: 'Watch workshop',
       task: 'Build the website and promote it in search engines.',
       results: ['24% lead conversion', '2,000+ visitors from Yandex and Google', '800+ keywords in the TOP-10'],
